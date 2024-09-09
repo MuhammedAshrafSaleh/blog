@@ -1,9 +1,15 @@
 import 'package:blog_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomGradientBtn extends StatelessWidget {
   final String buttonText;
-  const CustomGradientBtn({super.key, required this.buttonText});
+  void Function()? onPressed;
+  CustomGradientBtn({
+    super.key,
+    required this.buttonText,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,7 @@ class CustomGradientBtn extends StatelessWidget {
             colors: [AppColors.gradient1, AppColors.gradient2]),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           fixedSize: const Size(395, 55),
           backgroundColor: AppColors.transparentColor,

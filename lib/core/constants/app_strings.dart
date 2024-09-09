@@ -7,4 +7,5 @@ class AppStrings {
   static const String dontHaveAccount = "Don't have an account? ";
   static const String aleardyHaveAnAccount = "Already have an account? ";
   static const String anExpectedError = "An unexpected error occured";
+  static const String userIsNull = "User is null!";
 }

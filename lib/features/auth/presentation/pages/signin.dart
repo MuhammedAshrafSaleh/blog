@@ -57,7 +57,14 @@ class _SignInPageState extends State<SignInPage> {
                 },
               ),
               const SizedBox(height: 15),
-              const CustomGradientBtn(buttonText: AppStrings.signIn),
+              CustomGradientBtn(
+                buttonText: AppStrings.signIn,
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    // context.read<AuthBloc>().add(AuthSignUp(name: nameController, email: email, password: password));
+                  }
+                },
+              ),
               const SizedBox(height: 15),
               GestureDetector(
                 onTap: () {
