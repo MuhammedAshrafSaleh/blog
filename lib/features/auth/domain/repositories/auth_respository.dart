@@ -10,8 +10,8 @@ abstract interface class AuthRespository {
     required String password,
   });
 
-  // Future<Either<Failure, User>> loginEmailPassword({
-  //   required String email,
-  //   required String password,
-  // });
+  Future<Either<Failure, User>> loginEmailPassword({
+    required String email,
+    required String password,
+  });
 }

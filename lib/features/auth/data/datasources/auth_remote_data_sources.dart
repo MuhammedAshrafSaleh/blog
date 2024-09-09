@@ -1,5 +1,6 @@
 import 'package:blog_app/core/errors/exceptions.dart';
 import 'package:blog_app/features/auth/data/models/user_model.dart';
+import 'package:dartz/dartz.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:blog_app/core/constants/app_strings.dart';
 
@@ -23,8 +24,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<UserModel> loginEmailPassword({
     required String email,
     required String password,
-  }) {
-    throw UnimplementedError();
+  }) async {
+    try {
+      final response = await supabaseClient.auth.signInWithPassword(
+        password: password,
+        email: email,
+      );
+      if (response.user == null) {
+        throw const ServerException(message: AppStrings.userIsNull);
+      }
+      return UserModel.fromJson(response.user!.toJson());
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
   }
 
   @override
