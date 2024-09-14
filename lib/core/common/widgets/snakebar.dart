@@ -9,6 +9,7 @@ void showSnackBar({
     ..showSnackBar(
       SnackBar(
         content: Text(content),
+        duration: const Duration(milliseconds: 3000),
       ),
     );
 }

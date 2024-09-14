@@ -1,7 +1,10 @@
+import 'package:blog_app/core/common/cubit/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/secrets/app_secrets.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_sources.dart';
 import 'package:blog_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:blog_app/features/auth/domain/repositories/auth_respository.dart';
+import 'package:blog_app/features/auth/domain/usecases/current_user_usecase.dart';
+import 'package:blog_app/features/auth/domain/usecases/user_login_usecase.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up_usecase.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -17,31 +20,41 @@ Future<void> initDependencies() async {
   );
   // RegisterFactory -> Use it when you need to return a new instance of the service
   // RegisterLazySingleton -> Use if when you need to return the same instance
-  serviceLocator.registerLazySingleton<SupabaseClient>(
-    () => supabase.client,
-  );
+  serviceLocator.registerLazySingleton<SupabaseClient>(() => supabase.client);
+  // Core
+  serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
 
 void _initAuth() {
-  serviceLocator.registerFactory<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(
-      supabaseClient: serviceLocator(),
-    ),
-  );
-
-  serviceLocator.registerFactory<AuthRespository>(
-    () => AuthRepositoryImpl(
-      authRemoteDataSource: serviceLocator(),
-    ),
-  );
-
-  serviceLocator.registerFactory(
-    () => UserSignUpUsecase(authRespository: serviceLocator()),
-  );
-
-  serviceLocator.registerLazySingleton(
-    () => AuthBloc(
-      userSignUpUsecase: serviceLocator(),
-    ),
-  );
+  serviceLocator
+    // DataSource
+    ..registerFactory<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
+        supabaseClient: serviceLocator(),
+      ),
+    )
+    // Repositories
+    ..registerFactory<AuthRespository>(
+      () => AuthRepositoryImpl(
+        remoteDataSource: serviceLocator(),
+      ),
+    )
+    // Usecases
+    ..registerFactory(
+      () => UserSignUpUsecase(authRespository: serviceLocator()),
+    )
+    ..registerFactory(
+      () => UserLoginUsecase(authRespository: serviceLocator()),
+    )
+    ..registerFactory(
+      () => CurrentUserUsecase(respository: serviceLocator()),
+    )
+    // AuthBloc
+    ..registerLazySingleton(
+      () => AuthBloc(
+          userSignUpUsecase: serviceLocator(),
+          userLoginUsecase: serviceLocator(),
+          currentUser: serviceLocator(),
+          appUserCubit: serviceLocator()),
+    );
 }

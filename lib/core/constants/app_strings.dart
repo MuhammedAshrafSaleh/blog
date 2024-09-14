@@ -8,4 +8,12 @@ class AppStrings {
   static const String aleardyHaveAnAccount = "Already have an account? ";
   static const String anExpectedError = "An unexpected error occured";
   static const String userIsNull = "User is null!";
+  static const String blogTitleApp = "Blog App";
+  static const String selectYourImage = "Select Your Image";
+  static const String technology = "Technology";
+  static const String entertainment = "Entertainment";
+  static const String development = "Development";
+  static const String blog = "Blog";
+  static const String blogTitle = "Blog Title";
+  static const String blogDescription = "Blog Description";
 }

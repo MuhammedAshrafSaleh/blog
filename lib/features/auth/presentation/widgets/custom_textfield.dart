@@ -56,7 +56,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     );
   }
 
-  static _border({Color color = AppColors.grey}) => OutlineInputBorder(
+  static _border({Color color = AppColors.borderColor}) => OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide(
           color: color,

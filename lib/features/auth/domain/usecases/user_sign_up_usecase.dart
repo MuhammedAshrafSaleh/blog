@@ -1,9 +1,8 @@
+import 'package:blog_app/core/common/entities/user.dart';
 import 'package:dartz/dartz.dart';
 import 'package:blog_app/core/errors/failure.dart';
 import 'package:blog_app/core/usecases/usecase.dart';
 import 'package:blog_app/features/auth/domain/repositories/auth_respository.dart';
-
-import '../entities/user.dart';
 
 class UserSignUpUsecase implements UseCase<User, UserSignUpParams> {
   final AuthRespository authRespository;

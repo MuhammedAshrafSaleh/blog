@@ -1,7 +1,6 @@
+import 'package:blog_app/core/common/entities/user.dart';
 import 'package:dartz/dartz.dart';
 import 'package:blog_app/core/errors/failure.dart';
-
-import '../entities/user.dart';
 
 abstract interface class AuthRespository {
   Future<Either<Failure, User>> signUpEmailPassword({
@@ -14,4 +13,5 @@ abstract interface class AuthRespository {
     required String email,
     required String password,
   });
+  Future<Either<Failure, User>> currentUser();
 }

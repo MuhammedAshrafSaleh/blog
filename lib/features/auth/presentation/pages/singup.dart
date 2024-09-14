@@ -1,5 +1,5 @@
-import 'package:blog_app/core/common/loader.dart';
-import 'package:blog_app/core/common/snakebar.dart';
+import 'package:blog_app/core/common/widgets/loader.dart';
+import 'package:blog_app/core/common/widgets/snakebar.dart';
 import 'package:blog_app/core/constants/app_strings.dart';
 import 'package:blog_app/core/theme/app_colors.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
