@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:blog_app/core/constants/app_strings.dart';
 import 'package:blog_app/core/theme/app_colors.dart';
+import 'package:blog_app/core/utls/pick_image.dart';
 import 'package:blog_app/features/auth/presentation/widgets/custom_textfield.dart';
 import 'package:blog_app/features/blog/presentaion/widgets/blog_editor.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -20,6 +23,16 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   List<String> selectedTopics = [];
+  File? image;
+  void selectImage() async {
+    final pickedImage = await pickImage();
+    if (pickedImage != null) {
+      setState(() {
+        image = pickedImage;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +59,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            _buildSelectImageWidget(),
+            image != null ? _showImage(image) : _buildSelectImageWidget(),
             const SizedBox(height: 10),
             _buildTabsWidget(),
             const SizedBox(height: 10),
@@ -69,29 +82,47 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
     );
   }
 
-  Widget _buildSelectImageWidget() {
-    return DottedBorder(
-      radius: const Radius.circular(25),
-      color: AppColors.borderColor,
-      dashPattern: const [10, 4],
-      borderType: BorderType.RRect,
-      strokeCap: StrokeCap.round,
-      child: const SizedBox(
-        height: 150,
+  _showImage(image) {
+    return GestureDetector(
+      onTap: selectImage,
+      child: SizedBox(
+        height: 200,
         width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.folder_open,
-              size: 40,
-            ),
-            SizedBox(height: 15),
-            Text(
-              AppStrings.selectYourImage,
-              style: TextStyle(fontSize: 15),
-            ),
-          ],
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.file(image!, fit: BoxFit.cover)),
+      ),
+    );
+  }
+
+  Widget _buildSelectImageWidget() {
+    return GestureDetector(
+      onTap: () {
+        selectImage();
+      },
+      child: DottedBorder(
+        radius: const Radius.circular(25),
+        color: AppColors.borderColor,
+        dashPattern: const [10, 4],
+        borderType: BorderType.RRect,
+        strokeCap: StrokeCap.round,
+        child: const SizedBox(
+          height: 150,
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.folder_open,
+                size: 40,
+              ),
+              SizedBox(height: 15),
+              Text(
+                AppStrings.selectYourImage,
+                style: TextStyle(fontSize: 15),
+              ),
+            ],
+          ),
         ),
       ),
     );
