@@ -1,13 +1,13 @@
 import 'dart:io';
-
-import 'package:blog_app/core/constants/app_strings.dart';
-import 'package:blog_app/core/theme/app_colors.dart';
-import 'package:blog_app/core/utls/pick_image.dart';
-import 'package:blog_app/features/auth/presentation/widgets/custom_textfield.dart';
-import 'package:blog_app/features/blog/presentaion/widgets/blog_editor.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:blog_app/core/utls/pick_image.dart';
+import 'package:blog_app/core/theme/app_colors.dart';
+import 'package:blog_app/core/constants/app_strings.dart';
+import 'package:blog_app/features/blog/presentaion/widgets/blog_editor.dart';
+import 'package:blog_app/features/auth/presentation/widgets/custom_textfield.dart';
+
 
 class AddNewBlogPage extends StatefulWidget {
   static route() => MaterialPageRoute(
@@ -25,7 +25,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   List<String> selectedTopics = [];
   File? image;
   void selectImage() async {
-    final pickedImage = await pickImage();
+    final pickedImage = await pickGallaryImage();
     if (pickedImage != null) {
       setState(() {
         image = pickedImage;
