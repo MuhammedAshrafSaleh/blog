@@ -16,4 +16,5 @@ class AppStrings {
   static const String blog = "Blog";
   static const String blogTitle = "Blog Title";
   static const String blogDescription = "Blog Description";
+  static const String blogUploadedSuccessfully = "Blog Uploaded Successfully";
 }

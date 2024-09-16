@@ -1,3 +1,4 @@
+import 'package:blog_app/features/blog/presentaion/bloc/blog_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:blog_app/init_dependencies.dart';
@@ -12,8 +13,9 @@ void main() async {
   await initDependencies();
   runApp(
     MultiBlocProvider(providers: [
-      BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
-      BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+      BlocProvider(create: (_) => sl<AppUserCubit>()),
+      BlocProvider(create: (_) => sl<AuthBloc>()),
+      BlocProvider(create: (_) => sl<BlogBloc>()),
     ], child: const MyApp()),
   );
 }

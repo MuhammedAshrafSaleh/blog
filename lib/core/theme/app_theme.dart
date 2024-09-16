@@ -12,6 +12,7 @@ class AppTheme {
         contentPadding: const EdgeInsets.all(27),
         enabledBorder: _border(),
         focusedBorder: _border(),
+        errorBorder: _border(color: AppColors.errorColor),
       ));
 
   static _border({Color color = AppColors.borderColor}) => OutlineInputBorder(

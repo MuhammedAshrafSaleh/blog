@@ -9,6 +9,7 @@ class CustomTextFormField extends StatefulWidget {
   bool hasIcon = false;
   TextInputType? keyboardType;
   String? Function(String?)? validator;
+  bool isMaxLines;
   CustomTextFormField({
     super.key,
     required this.controller,
@@ -17,6 +18,7 @@ class CustomTextFormField extends StatefulWidget {
     this.keyboardType,
     required this.hasIcon,
     this.onpressedIcon,
+    this.isMaxLines = false,
   });
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -27,6 +29,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: widget.isMaxLines ? null : 1,
       controller: widget.controller,
       keyboardType: widget.keyboardType,
       obscureText: (widget.hasIcon && !showPassword),
@@ -48,6 +51,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         border: _border(),
         enabledBorder: _border(),
         focusedBorder: _border(color: AppColors.errorColor),
+        errorBorder: _border(color: AppColors.errorColor),
         hintStyle: Theme.of(context).textTheme.bodyMedium,
         fillColor: Colors.transparent,
         filled: true,
