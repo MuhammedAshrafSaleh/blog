@@ -6,7 +6,6 @@ import 'package:blog_app/core/errors/failure.dart';
 import 'package:blog_app/core/errors/exceptions.dart';
 import 'package:blog_app/features/auth/domain/repositories/auth_respository.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_sources.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthRepositoryImpl implements AuthRespository {
   // TODO: We Depend on Abstract class not the concrete class

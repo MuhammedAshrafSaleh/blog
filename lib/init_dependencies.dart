@@ -8,6 +8,7 @@ import 'package:blog_app/features/auth/domain/usecases/current_user_usecase.dart
 import 'package:blog_app/features/auth/domain/usecases/user_login_usecase.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up_usecase.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog_app/features/blog/data/datasources/blog_local_datasource.dart';
 import 'package:blog_app/features/blog/data/datasources/blog_remote_datasource.dart';
 import 'package:blog_app/features/blog/data/repositories/blog_repository_impl.dart';
 import 'package:blog_app/features/blog/domain/repositories/blog_repository.dart';
@@ -15,7 +16,9 @@ import 'package:blog_app/features/blog/domain/usecases/get_all_blogs_usecase.dar
 import 'package:blog_app/features/blog/domain/usecases/upload_blog_usecase.dart';
 import 'package:blog_app/features/blog/presentaion/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final sl = GetIt.instance;
@@ -26,6 +29,10 @@ Future<void> initDependencies() async {
   final supabase = await Supabase.initialize(
     anonKey: AppSecrets.supabaseAnonKey,
     url: AppSecrets.supabaseUrl,
+  );
+  Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
+  sl.registerLazySingleton(
+    () => Hive.box(name: 'blogs'),
   );
   // RegisterFactory -> Use it when you need to return a new instance of the service
   // RegisterLazySingleton -> Use if when you need to return the same instance
@@ -84,9 +91,14 @@ void _initBlog() {
         supabaseClient: sl(),
       ),
     )
+    ..registerFactory<BlogLocalDatasource>(
+      () => BlogLocalDatasourceImpl(box: sl()),
+    )
     ..registerFactory<BlogRepository>(
       () => BlogRepositoryImpl(
         remoteDatasource: sl(),
+        connectionChecker: sl(),
+        localDatasource: sl(),
       ),
     )
     ..registerFactory(

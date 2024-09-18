@@ -5,6 +5,8 @@ import 'package:blog_app/core/theme/app_colors.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/pages/singup.dart';
 import 'package:blog_app/features/auth/presentation/widgets/custom_textfield.dart';
+import 'package:blog_app/features/blog/presentaion/pages/blog_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,8 +32,12 @@ class _SignInPageState extends State<SignInPage> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthFailureState) {
-              print(state.message);
+              if (kDebugMode) {
+                print(state.message);
+              }
               showSnackBar(context: context, content: state.message);
+            } else if (state is AuthSuccessState) {
+              Navigator.pushReplacement(context, BlogPage.route());
             }
           },
           builder: (context, state) {
