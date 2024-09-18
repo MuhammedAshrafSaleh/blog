@@ -1,4 +1,5 @@
 import 'package:blog_app/core/common/cubit/app_user/app_user_cubit.dart';
+import 'package:blog_app/core/network/connection_checker.dart';
 import 'package:blog_app/core/secrets/app_secrets.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_sources.dart';
 import 'package:blog_app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -14,6 +15,7 @@ import 'package:blog_app/features/blog/domain/usecases/get_all_blogs_usecase.dar
 import 'package:blog_app/features/blog/domain/usecases/upload_blog_usecase.dart';
 import 'package:blog_app/features/blog/presentaion/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final sl = GetIt.instance;
@@ -28,8 +30,12 @@ Future<void> initDependencies() async {
   // RegisterFactory -> Use it when you need to return a new instance of the service
   // RegisterLazySingleton -> Use if when you need to return the same instance
   sl.registerLazySingleton<SupabaseClient>(() => supabase.client);
+  sl.registerFactory(() => InternetConnection());
   // Core
   sl.registerLazySingleton(() => AppUserCubit());
+  sl.registerFactory<ConnectionChecker>(
+    () => ConnectionCheckerImpl(internetConnection: sl()),
+  );
 }
 
 void _initAuth() {
@@ -44,6 +50,7 @@ void _initAuth() {
     ..registerFactory<AuthRespository>(
       () => AuthRepositoryImpl(
         remoteDataSource: sl(),
+        connectionChecker: sl(),
       ),
     )
     // Usecases

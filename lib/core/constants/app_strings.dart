@@ -17,4 +17,6 @@ class AppStrings {
   static const String blogTitle = "Blog Title";
   static const String blogDescription = "Blog Description";
   static const String blogUploadedSuccessfully = "Blog Uploaded Successfully";
+  static const String userIsNotLoggedIn = "User not logged in!";
+  static const String noInternetConnection = "No Internet Connection";
 }
